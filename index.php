@@ -28,7 +28,7 @@ if (isset($_SESSION['first_name'])) {
 	if(isset($_POST['login'])) { 
 		$username = $_POST['username']; 
 		$password = $_POST['password'];
-		$response = mysqli_query($database_handle,"select * from user_info where username = '$username' AND password = '$password';") ;
+		$response = mysqli_query($database_handle,"select * from user_info where (username = '$username' OR email = '$username') AND password = '$password';") ;
 		$num_rows = mysqli_num_rows($response);
 	if ( $num_rows){
 			header('Location: billing_info.php');
