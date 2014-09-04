@@ -35,7 +35,7 @@ if (isset($_POST['create_group'])) {
         
     } else {
        
-        if(mail($email,$first_name+" have share bill with you.","Hi,\n ".$first_name." have share bill with you.\n
+        if(mail($email,$name+" have share bill with you.","Hi,\n ".$name." have share bill with you.\n
             To know details login to http://54.64.1.52/Mybill/.\n
             Username: ".$email."\n
             Password: user123#"))
