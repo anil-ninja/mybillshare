@@ -118,6 +118,8 @@ if (isset($_SESSION['first_name'])) {
 							<button type="submit" class="btn btn-primary" name="login">Log in</button>
 							<a data-toggle="modal" data-target="#myModal" style="float: right; cursor:pointer;">
 			or Sign Up
+		</a><br><a data-toggle="modal" data-target="#forgetPassModel" style="float: right; cursor:pointer;">
+			Forget Password
 		</a>
 						</form>
 					</div>
