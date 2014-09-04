@@ -38,6 +38,7 @@ if (isset($_POST['delete_group'])) {
     $group_name = $_POST['group_name'];
     // echo $group_name;
     mysqli_query($db_handle, "DELETE FROM groups WHERE group_name = '$group_name';");
+    //this comment
 }
 
 if (isset($_POST['add_member'])) {
