@@ -174,6 +174,7 @@ foreach ($selfTable as $v) {
                         </tr>";
 }
 $v = array();
+$n = 0;
 foreach ($debitTable as $v) {
     //print_r($v);
     echo "<tr>
@@ -181,9 +182,9 @@ foreach ($debitTable as $v) {
                             <td>
 
                             <div class='accordion-group'>
-            <a class='accordion-toggle list-group-item' data-toggle='collapse' data-parent='#leftMenu' href='#collapseTwo'>
+            <a class='accordion-toggle list-group-item' data-toggle='collapse' data-parent='#leftMenu' href='#d" . $n ."'>
                 <i class='fa fa-book'></i>" . $v['email'] ." </a>
-            <div id='collapseTwo' class='accordion-body collapse' style='height: 0px; '>
+            <div id=d" . $n ." class='accordion-body collapse' style='height: 0px; '>
                 <div class='accordion-inner list-group'>
                     <ul>" ;
                               foreach ($v['desc'] as $z) {
@@ -191,7 +192,7 @@ foreach ($debitTable as $v) {
                                   
             }
 
-    
+    $n +=1;
         echo "</ul>
                 </div>
             </div>
@@ -202,16 +203,26 @@ foreach ($debitTable as $v) {
                         </tr>";
 }
 $v = array();
+$n=0;
 foreach ($creditTable as $v) {
     //print_r($v);
     echo "<tr class= 'danger'>
                             <td>" . $v['name'] . "</td>
-                            <td>" . $v['email'] ."<br>" ;
+                            <td><div class='accordion-group'>
+            <a class='accordion-toggle list-group-item danger' data-toggle='collapse' data-parent='#leftMenu' href='#c" . $n ."'>
+                <i class='fa fa-book'></i>" . $v['email'] ." </a>
+            <div id=c" . $n ." class='accordion-body collapse' style='height: 0px; '>
+                <div class='accordion-inner list-group'>
+                    <ul>" ;
                               foreach ($v['desc'] as $z) {
                                   echo $z."<br>";
                                   
             }
-                                echo "</td>
+            $n +=1;
+                                echo "</ul>
+                </div>
+            </div>
+        </div></td>
                             <td>Credit</td>
                             <td>" . $v['amount'] . "</td>
                             

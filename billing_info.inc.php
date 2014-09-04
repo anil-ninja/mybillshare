@@ -8,7 +8,7 @@ if (!isset($_SESSION['first_name'])) {
     header('Location: index.php');
 }
 
-$db_handle = mysqli_connect("socloc.capillary.in","root","redhat11111p","mybill");
+$db_handle = mysqli_connect("socloc.capillary.in","root","redhat111111","mybill");
 
 if (mysqli_connect_errno()) {
     echo "Failed to connect to MySQL: " . mysqli_connect_error();
