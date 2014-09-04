@@ -34,7 +34,16 @@ if (isset($_POST['create_group'])) {
         mysqli_query($db_handle, "INSERT INTO group_owners (group_owner, group_name) VALUES ('$user_id','$group_name');");
         
     } else {
-        echo "This Person is not registered";
+       
+        if(mail($email,$first_name+" have share bill with you.","Hi,\n ".$first_name." have share bill with you.\n
+            To know details login to http://54.64.1.52/Mybill/.\n
+            Username: ".$email."\n
+            Password: user123#"))
+            print "<script>alert('User was not registered, we have invited the user!')</script>";
+        else
+            print "<script>alert('An error occured, Sorry try again!')</script>";
+
+        
     }
 }
 
