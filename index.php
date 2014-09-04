@@ -79,7 +79,7 @@ if (isset($_SESSION['first_name'])) {
   </head>
 
   <body>
-
+<div class="row">
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
@@ -97,7 +97,7 @@ if (isset($_SESSION['first_name'])) {
         </div>
       </div>
     </div>
- 
+ </div>
     <div class="container">
 		<div class='row'>
 			
