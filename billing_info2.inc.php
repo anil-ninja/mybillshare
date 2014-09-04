@@ -90,7 +90,7 @@ if (isset($_POST['save'])) {
     if ($group_name == '') {
         mysqli_query($db_handle, "INSERT INTO groups (user_id, group_name) VALUES ('$user_id', '$name');");
         $group_name = $name;
-        
+
     }
     mysqli_query($db_handle, "INSERT INTO billing_info ( user_id, billing_date, amount, description, group_name ) 
 											VALUES ('$user_id','$billing_date','$amount','$description','$group_name');");
@@ -207,9 +207,9 @@ while ($we = mysqli_fetch_array($rt)) {
     $eid = $as['email'];
     $unm = $as['first_name'];
     $cd = "Debit";
-    $amnt = $we['amount'];
+    $amt = $we['amount'];
 
-    $amnt = $amnt / $abh;
+    $amnt = $amt / $abh;
     //   echo "<div class='span3'></div>".$amnt."::: ".$usi."::: ".$gnm.";";
     if (key_exists($eid, $debitTable)) {
 
