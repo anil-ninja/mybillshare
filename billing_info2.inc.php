@@ -18,7 +18,7 @@ if (mysqli_connect_errno()) {
 if (isset($_POST['delete_bill'])) {
     $bill_id = $_POST['bill_id'];
     mysqli_query($db_handle, "DELETE FROM billing_info where bill_id = '$bill_id';");
-
+    header('Location: billing_info.php');
     //echo "<script>alert('success')</script>";
 }
 
@@ -32,7 +32,7 @@ if (isset($_POST['create_group'])) {
         $uid = $responserow['user_id'];
         mysqli_query($db_handle, "INSERT INTO groups (user_id, group_name) VALUES ('$uid', '$group_name'),('$user_id','$group_name');");
         mysqli_query($db_handle, "INSERT INTO group_owners (group_owner, group_name) VALUES ('$user_id','$group_name');");
-        
+        header('Location: billing_info.php');
     } else {
        
         if(mail($email,$name+" have share bill with you.","Hi,\n ".$name." have share bill with you.\n
@@ -54,6 +54,7 @@ if (isset($_POST['delete_group'])) {
     $num = mysqli_num_rows($owner);
     if ($num = 1) {
     mysqli_query($db_handle, "DELETE FROM groups WHERE group_name = '$group_name';");
+    header('Location: billing_info.php');
 } else { 
 	echo "You have no Permission!!" ;
 	}
@@ -68,6 +69,7 @@ if (isset($_POST['add_member'])) {
         $responserow = mysqli_fetch_array($respo);
         $uid = $responserow['user_id'];
         mysqli_query($db_handle, "INSERT INTO groups (user_id, group_name) VALUES ('$uid', '$group_name');");
+        header('Location: billing_info.php');
     } else {
         echo "This Person is not registered";
     }
@@ -77,6 +79,7 @@ if (isset($_POST['delete_member'])) {
     $uid = $_POST['uid'];
     $group_name = $_POST['group_name'];
     mysqli_query($db_handle, "DELETE FROM groups WHERE user_id = '$uid' AND group_name = '$group_name';");
+    header('Location: billing_info.php');
 }
 
 if (isset($_POST['save'])) {
@@ -87,9 +90,11 @@ if (isset($_POST['save'])) {
     if ($group_name == '') {
         mysqli_query($db_handle, "INSERT INTO groups (user_id, group_name) VALUES ('$user_id', '$name');");
         $group_name = $name;
+        
     }
     mysqli_query($db_handle, "INSERT INTO billing_info ( user_id, billing_date, amount, description, group_name ) 
 											VALUES ('$user_id','$billing_date','$amount','$description','$group_name');");
+    header('Location: billing_info.php');
 }
 
 $response = mysqli_query($db_handle, "SELECT * FROM billing_info WHERE user_id = '$user_id';");
