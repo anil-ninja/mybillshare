@@ -178,14 +178,24 @@ foreach ($debitTable as $v) {
     //print_r($v);
     echo "<tr>
                             <td>" . $v['name'] . "</td>
-                            <td>" . $v['email'] ."<br>" ;
+                            <td>
+
+                            <div class='accordion-group'>
+            <a class='accordion-toggle list-group-item' data-toggle='collapse' data-parent='#leftMenu' href='#collapseTwo'>
+                <i class='fa fa-book'></i>" . $v['email'] ." </a>
+            <div id='collapseTwo' class='accordion-body collapse' style='height: 0px; '>
+                <div class='accordion-inner list-group'>
+                    <ul>" ;
                               foreach ($v['desc'] as $z) {
                                   echo $z."<br>";
                                   
             }
 
     
-        echo "</td><td>Debit</td>";
+        echo "</ul>
+                </div>
+            </div>
+        </div></td><td>Debit</td>";
     echo "        <td>" . $v['amount'] . "</td>
                             
 
