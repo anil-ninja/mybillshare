@@ -26,9 +26,10 @@ if (isset($_SESSION['first_name'])) {
 		}
 
 	if(isset($_POST['login'])) { 
-		$username = $_POST['username']; 
+		$username = $_POST['username'];
+		$email = $_POST['email']; 
 		$password = $_POST['password'];
-		$response = mysqli_query($database_handle,"select * from user_info where username = '$username' AND password = '$password';") ;
+		$response = mysqli_query($database_handle,"select * from user_info where (username = '$username' OR email = '$username') AND password = '$password';") ;
 		$num_rows = mysqli_num_rows($response);
 	if ( $num_rows){
 			header('Location: billing_info.php');
@@ -107,7 +108,8 @@ if (isset($_SESSION['first_name'])) {
 							<br/>
 								<div class="input-group">
 									<span class="input-group-addon">Username</span>
-									<input type="text" class="form-control" name="username" placeholder="Enter email">
+									<input type="text" class="form-control" name="username" placeholder="Enter email or username">
+									<!----  <input type="hidden" class="form-control" name="email">  ---->
 								</div>
 								<br>
 								<div class="input-group">

@@ -51,11 +51,12 @@ if (isset($_POST['delete_group'])) {
     $group_name = $_POST['group_name'];
     $user_id = $_SESSION['user_id'];
     $owner = mysqli_query($db_handle, "SELECT * FROM group_owners WHERE group_name = '$group_name' and group_owner = '$user_id';");
-    $num = mysqli_num_rows($owner);
-    if ($num = 1) {
+    $num = mysqli_fetch_array($owner);
+    $grpown = $num['group_owner'] ;
+    if ($user_id == $grpown) {
     mysqli_query($db_handle, "DELETE FROM groups WHERE group_name = '$group_name';");
 } else { 
-	echo "You have no Permission!!" ;
+	 header('Location: billing_info.php?status=2');
 	}
 }
 
@@ -77,6 +78,12 @@ if (isset($_POST['delete_member'])) {
     $uid = $_POST['uid'];
     $group_name = $_POST['group_name'];
     mysqli_query($db_handle, "DELETE FROM groups WHERE user_id = '$uid' AND group_name = '$group_name';");
+}
+
+if (isset($_POST['suggestions'])) {
+	$suggestion = $_POST['suggestion'] ;
+    $like = 1 ;
+    mysqli_query($db_handle, "INSERT INTO suggestions (user_id, suggest, likes) VALUES ('$user_id', '$suggestion', '$like');");
 }
 
 if (isset($_POST['save'])) {
@@ -277,4 +284,19 @@ while ($groupRow = mysqli_fetch_array($groupdisplay)) {
                             </div>
                     </td></tr>";
 }
+if(isset($_GET['status'])){
+//status=2
+	if($_GET['status'] == 0){
+			echo "<script> 
+					alert('Please, put Valid Username and Password');
+				</script>";
+}
+
+	if($_GET['status'] == 2){
+		echo "<script>
+				alert('You have no Permission !!!!');
+			</script>";
+}
+}
+
 ?>

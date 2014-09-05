@@ -261,6 +261,31 @@ echo $group_display_td;
             </div>
         </div>	
 
+           <div class="row">
+                <div class="span2">
+                </div>
+                <div class="span9">
+                    <p> <h4><font color = "006666">Groups: </font></h4> </p>
+                     <div class="col-lg-12">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover datatable" id="datatable">
+                                <thead>    
+                            <tr style="background-color:silver;">
+                                <th>Suggestions  <br></th>
+                                <th>likes  <br></th>
+                            </tr></thead><tbody>
+                        
+<?php
+
+echo $group_display_td;
+?>
+</tbody>
+                    </table>
+                        </div></div>
+                </div>
+            </div>
+        </div>	
+
         <!-- Modal -->
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -336,6 +361,22 @@ echo $group_display_td;
             </div>
         </div>
         <!--end modle-->
+        <div class="container">
+		<div class='row'>
+			
+					
+					<div class="center-block" style="width:300px;"  ></br>
+						<form role="form" method="POST" class="form-horizontal" >
+                            <div class="input-group" >
+                                <span class="input-group-addon">Suggestions</span>
+                                <input type="text" class="form-control" name="suggestion" placeholder="Type your suggestion here">
+                            </div>
+                            <br>
+                            <input type="submit" class="btn btn-primary" name = "suggestions" value = "Submit" >
+                        </form>
+                        </div>
+                        </div>
+                        </div>
         <script type="text/javascript">
 		
         </script>
