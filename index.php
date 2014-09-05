@@ -5,7 +5,7 @@
 if (isset($_SESSION['first_name'])) {
     header('Location: billing_info.php');
 }	
-		$database_handle = mysqli_connect("localhost","root","redhat11111p","mybill");
+		$database_handle = mysqli_connect("localhost","root","redhat111111","mybill");
 	if (mysqli_connect_errno()) {
 		echo "Failed to connect to MySQL: " . mysqli_connect_error();
 		}
