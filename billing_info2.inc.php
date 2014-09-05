@@ -28,11 +28,11 @@ if (isset($_POST['invite'])) {
     $email = $_POST['email'];
     $password = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 5);;
     
-    mysqli_query($database_handle,"INSERT INTO user_info
+    mysqli_query($db_handle,"INSERT INTO user_info
                                     (first_name, last_name, email, username, password) 
                                     VALUES 
-                                    ('$fname', '$sname', '$email', '$email', '$password') ; ") ;
-    header('Location: index.php?status=0');
+                                    ('$fname', '$sname', '$email', '$password', '$password') ; ") ;
+    
     if(mail($email,$name+" have share bill with you.","Hi,\n ".$name." have share bill with you.\n
             To know details login to http://54.64.1.52/Mybill/.\n
             Username: ".$email."\n
