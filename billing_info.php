@@ -355,11 +355,29 @@ echo $group_display_td;
                 </ul>
             </div>
         </div>
+        <?php
+
+if(isset($_GET['status'])){
+//status=2
+    if($_GET['status'] == 1){
+            echo "<script> 
+                    alert('Sorry process died, Plz try again!');
+                </script>";
+}
+
+    if($_GET['status'] == 0){
+        echo "<script>
+                alert('Invitation sent successfully');
+            </script>";
+}
+}
+?>
         <script type="text/javascript">
             $('#example')
             .removeClass( 'display' )
             .addClass('table table-striped table-bordered');
         </script>
+
     </body>
 </html>
 

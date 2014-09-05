@@ -9,7 +9,7 @@ if (!isset($_SESSION['first_name'])) {
 }
 
 
-$db_handle = mysqli_connect("localhost", "root", "redhat111111", "mybill");
+$db_handle = mysqli_connect("localhost", "root", "redhat11111p", "mybill");
 
 if (mysqli_connect_errno()) {
     echo "Failed to connect to MySQL: " . mysqli_connect_error();
@@ -22,6 +22,29 @@ if (isset($_POST['delete_bill'])) {
     //echo "<script>alert('success')</script>";
 }
 
+if (isset($_POST['invite'])) {
+    $fname = $_POST['fname'];
+    $sname = $_POST['sname'];
+    $email = $_POST['email'];
+    $password = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 5);;
+    
+    mysqli_query($database_handle,"INSERT INTO user_info
+                                    (first_name, last_name, email, username, password) 
+                                    VALUES 
+                                    ('$fname', '$sname', '$email', '$email', '$password') ; ") ;
+    header('Location: index.php?status=0');
+    if(mail($email,$name+" have share bill with you.","Hi,\n ".$name." have share bill with you.\n
+            To know details login to http://54.64.1.52/Mybill/.\n
+            Username: ".$email."\n
+            Password: ".$password)){
+            header('Location: billing_info.php?status=0');
+           //print "<script>alert('User was not registered, we have invited the user!')</script>";
+    }
+    else{
+            header('Location: billing_info.php?status=1');
+           // print "<script>alert('An error occured, Sorry try again!')</script>";
+            }
+}
 if (isset($_POST['create_group'])) {
     $group_name = $_POST['group_name'];
     $email = $_POST['email'];
@@ -34,14 +57,44 @@ if (isset($_POST['create_group'])) {
         mysqli_query($db_handle, "INSERT INTO group_owners (group_owner, group_name) VALUES ('$user_id','$group_name');");
         header('Location: billing_info.php');
     } else {
-       
-        if(mail($email,$name+" have share bill with you.","Hi,\n ".$name." have share bill with you.\n
-            To know details login to http://54.64.1.52/Mybill/.\n
-            Username: ".$email."\n
-            Password: user123#"))
-            print "<script>alert('User was not registered, we have invited the user!')</script>";
-        else
-            print "<script>alert('An error occured, Sorry try again!')</script>";
+       echo "<div style='display: block;' class='modal fade in' id='eye' tabindex='-1' role='dialog' aria-labelledby='shareuserinfo' aria-hidden='false'>
+                <div class='modal-dialog'>
+                    <div class='modal-content'>
+                        <div class='modal-header'>
+                            <button type='button' class='close' data-dismiss='modal'><span aria-hidden='true'>&times;</span><span class='sr-only'>Close</span></button>
+                            <h4 class='modal-title' id='myModalLabel'>
+                                Hi, It looks like s/he is not here. Lets intivite her/him. 
+                            </h4>
+                        </div>
+                        <div class='modal-body'>
+                            <form role='form' method='POST' action = ''>
+                                
+                                    <div class='input-group'>
+                                        <span class='input-group-addon'>His First Name</span> 
+                                        <input type='text' class='form-control' name='fname' placeholder='His First Name'> 
+                                    </div>
+                                    <div class='input-group'>
+                                        <span class='input-group-addon'>His Second Name</span> 
+                                        <input type='text' class='form-control' name='sname' placeholder='His Second Name'> 
+                                    </div>
+                                    <div class='input-group'>
+                                        <span class='input-group-addon'>His Email ID</span> 
+                                        <input type='text' class='form-control' name='email' value='".$email."' /> 
+                                    </div>
+                                <br>
+                                <input type='submit' class='btn btn-primary' name='invite'  value='Invite Him/er' />
+                            </form>
+                        </div>
+                        <div class='modal-footer'>
+                            <!--<button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>-->
+                            
+                              <a href = 'billing_info.php' class='btn btn-primary'> Close </a>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>";
+        
 
         
     }
