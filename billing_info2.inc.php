@@ -127,7 +127,30 @@ if (isset($_POST['add_member'])) {
         echo "This Person is not registered";
     }
 }
-
+//  enter suggestion added
+if (isset($_POST['suggestions'])) {
+	$suggestion = $_POST['suggestion'] ;
+    $like = 1 ;
+    mysqli_query($db_handle, "INSERT INTO suggestions (user_id, suggest, likes) VALUES ('$user_id', '$suggestion', '$like');");
+    header('Location: billing_info.php');
+}
+// show billing description by date and month wise added
+if (isset($_POST['view'])) {
+    $bil = $_POST['bil'];
+    $bite = $_POST['bite'];
+     $response = mysqli_query($db_handle, "select * from billing_info where user_id = '$user_id' and (billing_date  between '$bil' and '$bite');") ;
+	} 
+	 elseif (isset($_POST['month'])) {
+		$month = $_POST['month'];
+		$year = date("y") ;
+		$dat = "01" ;
+		$initial = $year."-".$month."-".$dat ;
+		$last = $year."-".$month."-".($dat+30) ;
+		$response = mysqli_query($db_handle, "select * from billing_info where user_id = '$user_id' and (billing_date  between '$initial' and '$last');") ;
+		}	else { 
+				$response = mysqli_query($db_handle, "SELECT * FROM billing_info WHERE user_id = '$user_id';");
+			}
+// show billing description by date and month wise added -----ended-----
 if (isset($_POST['delete_member'])) {
     $uid = $_POST['uid'];
     $group_name = $_POST['group_name'];
