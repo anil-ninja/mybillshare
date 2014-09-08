@@ -18,7 +18,8 @@ if (isset($_SESSION['first_name'])) {
 			$pas = $_POST['password'] ;
 			$awe = $_POST['password2'] ;
 		if ( $pas == $awe ) {
-				mysqli_query($database_handle,"INSERT INTO user_info(first_name, last_name, email, username, password) VALUES ('$firstname', '$lastname', '$email', '$username', '$pas') ; ") ;
+				mysqli_query($database_handle,"INSERT INTO user_info(first_name, last_name, email, username, password) VALUES 
+						('$firstname', '$lastname', '$email', '$username', '$pas') ; ") ;
 				header('Location: index.php?status=0');
 			} 
 				else { echo "password not match" ;
@@ -61,7 +62,7 @@ if (isset($_SESSION['first_name'])) {
     
     <style>
       body {
-        padding-top: 50px; /* 60px to make the container go all the way to the bottom of the topbar */
+        padding-top: 100px; /* 60px to make the container go all the way to the bottom of the topbar */
       }
     </style>
     <link href="css/bootstrap-responsive.css" rel="stylesheet">

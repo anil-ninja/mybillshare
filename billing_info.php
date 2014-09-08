@@ -22,22 +22,25 @@ include_once 'billing_info2.inc.php';
 
         <link href="css/bootstrap-responsive.css" rel="stylesheet">
 
-        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+        
         <link rel="stylesheet" type="text/css" href="css/dataTables.bootstrap.css">
 
 
-        <script type="text/javascript" language="javascript" src="js/jquery.dataTables.min.js"></script>
-        <script type="text/javascript" language="javascript" src="js/dataTables.bootstrap.js"></script>
+       
+       
 
         <link href="css/custom.css" rel="stylesheet">
         <link href="css/font-awesome.css" rel="stylesheet">
         
 
-        <script src="js/datatable_custom.js"></script>
+        
+        <script src="js/jquery.js"></script>
+        <script src="js/jquery.dataTables.js"></script>
+
         <script type="text/javascript" charset="utf-8">
             $(document).ready(function() {
-                $('#example').dataTable();
-            } );
+                $('#datatablesaa').dataTable();
+            } )
         </script>
     </head>
 
@@ -73,11 +76,13 @@ include_once 'billing_info2.inc.php';
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav side-nav">
 
-                <li class="dropdown"><a data-toggle="modal"  data-target="#eye" style="float: right; cursor:pointer;"><i class="fa fa-download"></i>
+                <li class="dropdown"><a data-toggle="modal"  data-target="#eye" style="float: right; cursor:pointer;">
+                <i class="fa fa-download"></i>
                         Enter your expenses
                     </a>
                 </li>
-                <li><a data-toggle="modal"  data-target="#myModal" style="float: right; cursor:pointer;">Create New Group
+                <li><a data-toggle="modal"  data-target="#myModal" style="float: right; cursor:pointer;">
+                    <i class="glyphicon glyphicon-user"></i><i class="glyphicon glyphicon-user"></i>Create New Group
                     </a>
                 </li>
 
@@ -94,7 +99,7 @@ include_once 'billing_info2.inc.php';
                     <p> <h4><font color = "006666">Your Billing Details: </font></h4> </p>
                    <div class="col-lg-12">
                         <div class="table-responsive">
-                            <table class="table table-bordered table-hover datatable" id="datatable">
+                            <table class="table table-bordered table-hover datatable" id="datatablesaa">
                                 <thead>
                             <tr>
                                 <th>BILL ID  </th>
@@ -336,11 +341,8 @@ echo $group_display_td;
             </div>
         </div>
         <!--end modle-->
-        <script type="text/javascript">
-		
-        </script>
-
-        <script src="js/jquery.js"></script>
+    
+        
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script src="js/bootstrap.min.js"></script>
 
@@ -372,12 +374,7 @@ if(isset($_GET['status'])){
 }
 }
 ?>
-        <script type="text/javascript">
-            $('#example')
-            .removeClass( 'display' )
-            .addClass('table table-striped table-bordered');
-        </script>
-
+        
     </body>
 </html>
 
