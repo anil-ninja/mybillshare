@@ -22,7 +22,8 @@ if (isset($_SESSION['first_name'])) {
 						('$firstname', '$lastname', '$email', '$username', '$pas') ; ") ;
 				header('Location: index.php?status=0');
 			} 
-				else { echo "password not match" ;
+				else {  
+					header('Location: index.php?status=1');
 					}
 		}
 
@@ -217,6 +218,11 @@ if(isset($_GET['status'])){
 	if($_GET['status'] == 0){
 		echo "<script>
 				alert('User registered successfully');
+			</script>";
+}
+	if($_GET['status'] == 1){
+		echo "<script>
+				alert('Password do not match, Try again');
 			</script>";
 }
 }
