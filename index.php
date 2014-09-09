@@ -224,7 +224,7 @@ if(isset($_GET['status'])){
 		echo "<script>
 				alert('Password do not match, Try again');
 			</script>";
-}
+}//trying
 }
 ?>
   </body>
