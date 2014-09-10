@@ -59,8 +59,8 @@ include_once 'billing_info2.inc.php';
 
                                 <!-----Message link on top navigation bar between username and logout --->
                                 <li><form  method="POST" class="navbar-text"  >
-                                        <input type="submit"  class=" btn-primary" name="messages" value="Messages" style="float: left"> 
-                                        </input>
+                                        <button type="submit"  class="glyphicon glyphicon-envelope" name="messages" style="float: left"> 
+                                        </button>
                                     </form>
                                 </li>
                                 <!-----Message link ended--->
@@ -100,30 +100,14 @@ include_once 'billing_info2.inc.php';
             <div class="row">
                 <div class="span2">
                 </div>
-                <div class="span9">
-<<<<<<< HEAD
-                    <p> <h4><font color = "006666">Your Billing Details: </font></h4> </p>
-                   <div class="col-lg-12">
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-hover datatable" id="datatablesaa">
-                                <thead>
-                            <tr>
-                                <th>BILL ID  </th>
-                                <th>Amount  </th>
-                                <th>Description  </th>
-                                <th>Billing Date  </th>
-                                <th>Group Name  </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-=======
+                <div class="span7">
                     <form method="POST" action = "">
                         <p> <h4>                   
                             <input type="date" name="bil"  placeholder="From (yyyy-mm-dd)" />
                             <input type="date" name="bite"  placeholder="To (yyyy-mm-dd)" />
                             <input type="submit" class="btn btn-primary" name="view"  value="View" /> 
-                            <a><font color = "blue">View by month</font></a> </h4> </p>
-                        <form method="POST">
+                            <a><font color = "blue">View by month</font></a>
+                        
                             <select name = "month" onchange='this.form.submit()' >	
 <?php
 $month = date("m");
@@ -148,14 +132,13 @@ foreach ($months as $mon) {
     $i+=1;
 }
 ?>	
-                            </select>
+                            </select> </h4>
                         </form>
                         <noscript><input type="submit" name="month" value="Submit"></noscript>
                         </div>
                         </div>
                         </div>
                         <!-----View by month and in between two dates -----------ENDS------------ shows Billing details ----->
-                        <div id="page-wrapper">
 
                             <div class="row">
                                 <div class="span2">
@@ -177,7 +160,6 @@ foreach ($months as $mon) {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
->>>>>>> 851d59771ac534bbd39962d437b8e829d86407ef
 <?php
 // use string to collect html and echo it
 $total = 0;
@@ -216,7 +198,7 @@ echo "<tr>
 
 
                                 <!-----Show suggestion table with likes --------ADDED--------->
-                                <div class="span3 ">
+                                <div class="span4">
                                     <p> <h4><font color = "006666">Suggestions: </font></h4> </p>
                                     <div class="col-lg-12">
                                         <div class="table-responsive">
@@ -240,7 +222,7 @@ while ($suggestdisplayRow = mysqli_fetch_array($suggestdisplay)) {
                                                         <form method='POST' class='inline-form'>
                                                                 <input type = 'hidden' name = 'suggestion_id' value = '" . $suggestdisplayRow['suggestion_id'] . "'>
                                                                 <input type = 'hidden' name = 'likes' value = '" . $suggestdisplayRow['likes'] . "'>
-                                                                    <button type='submit'  class='glyphicon glyphicon-thumbs-up'  name='like'>
+                                                                    <button type='submit'  class='glyphicon glyphicon-hand-up'  name='like'>
                                                                     </button>
                                                         </form>
                                                      </td>";
@@ -261,7 +243,7 @@ while ($suggestdisplayRow = mysqli_fetch_array($suggestdisplay)) {
                         <div class="row">
                             <div class="span2">
                             </div>
-                            <div class="span9">
+                            <div class="span7">
                                 <p> <h4><font color = "006666">Summary: </font></h4> </p>
                                 <div class="col-lg-12">
                                     <div class="table-responsive">
