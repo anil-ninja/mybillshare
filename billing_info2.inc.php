@@ -18,10 +18,37 @@ if (mysqli_connect_errno()) {
 if (isset($_POST['delete_bill'])) {
     $bill_id = $_POST['bill_id'];
     mysqli_query($db_handle, "DELETE FROM billing_info where bill_id = '$bill_id';");
+<<<<<<< HEAD
 	
+=======
+    header('Location: billing_info.php');
+>>>>>>> ac77a46ec923092a053d259bcd4b247e5586d1ec
     //echo "<script>alert('success')</script>";
 }
 
+if (isset($_POST['invite'])) {
+    $fname = $_POST['fname'];
+    $sname = $_POST['sname'];
+    $email = $_POST['email'];
+    $password = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 5);;
+    
+    mysqli_query($db_handle,"INSERT INTO user_info
+                                    (first_name, last_name, email, username, password) 
+                                    VALUES 
+                                    ('$fname', '$sname', '$email', '$password', '$password') ; ") ;
+    
+    if(mail($email,$name+" have share bill with you.","Hi,\n ".$name." have share bill with you.\n
+            To know details login to http://54.64.1.52/Mybill/.\n
+            Username: ".$email."\n
+            Password: ".$password)){
+            header('Location: billing_info.php?status=0');
+           //print "<script>alert('User was not registered, we have invited the user!')</script>";
+    }
+    else{
+            header('Location: billing_info.php?status=1');
+           // print "<script>alert('An error occured, Sorry try again!')</script>";
+            }
+}
 if (isset($_POST['create_group'])) {
     $group_name = $_POST['group_name'];
     $email = $_POST['email'];
@@ -32,16 +59,46 @@ if (isset($_POST['create_group'])) {
         $uid = $responserow['user_id'];
         mysqli_query($db_handle, "INSERT INTO groups (user_id, group_name) VALUES ('$uid', '$group_name'),('$user_id','$group_name');");
         mysqli_query($db_handle, "INSERT INTO group_owners (group_owner, group_name) VALUES ('$user_id','$group_name');");
-        
+        header('Location: billing_info.php');
     } else {
-       
-        if(mail($email,$name+" have share bill with you.","Hi,\n ".$name." have share bill with you.\n
-            To know details login to http://54.64.1.52/Mybill/.\n
-            Username: ".$email."\n
-            Password: user123#"))
-            print "<script>alert('User was not registered, we have invited the user!')</script>";
-        else
-            print "<script>alert('An error occured, Sorry try again!')</script>";
+       echo "<div style='display: block;' class='modal fade in' id='eye' tabindex='-1' role='dialog' aria-labelledby='shareuserinfo' aria-hidden='false'>
+                <div class='modal-dialog'>
+                    <div class='modal-content'>
+                        <div class='modal-header'>
+                            <button type='button' class='close' data-dismiss='modal'><span aria-hidden='true'>&times;</span><span class='sr-only'>Close</span></button>
+                            <h4 class='modal-title' id='myModalLabel'>
+                                Hi, It looks like s/he is not here. Lets intivite her/him. 
+                            </h4>
+                        </div>
+                        <div class='modal-body'>
+                            <form role='form' method='POST' action = ''>
+                                
+                                    <div class='input-group'>
+                                        <span class='input-group-addon'>His First Name</span> 
+                                        <input type='text' class='form-control' name='fname' placeholder='His First Name'> 
+                                    </div>
+                                    <div class='input-group'>
+                                        <span class='input-group-addon'>His Second Name</span> 
+                                        <input type='text' class='form-control' name='sname' placeholder='His Second Name'> 
+                                    </div>
+                                    <div class='input-group'>
+                                        <span class='input-group-addon'>His Email ID</span> 
+                                        <input type='text' class='form-control' name='email' value='".$email."' /> 
+                                    </div>
+                                <br>
+                                <input type='submit' class='btn btn-primary' name='invite'  value='Invite Him/er' />
+                            </form>
+                        </div>
+                        <div class='modal-footer'>
+                            <!--<button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>-->
+                            
+                              <a href = 'billing_info.php' class='btn btn-primary'> Close </a>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>";
+        
 
         
     }
@@ -55,6 +112,7 @@ if (isset($_POST['delete_group'])) {
     $grpown = $num['group_owner'] ;
     if ($user_id == $grpown) {
     mysqli_query($db_handle, "DELETE FROM groups WHERE group_name = '$group_name';");
+    header('Location: billing_info.php');
 } else { 
 	 header('Location: billing_info.php?status=2');
 	}
@@ -69,15 +127,40 @@ if (isset($_POST['add_member'])) {
         $responserow = mysqli_fetch_array($respo);
         $uid = $responserow['user_id'];
         mysqli_query($db_handle, "INSERT INTO groups (user_id, group_name) VALUES ('$uid', '$group_name');");
+        header('Location: billing_info.php');
     } else {
         echo "This Person is not registered";
     }
 }
-
+//  enter suggestion added
+if (isset($_POST['suggestions'])) {
+	$suggestion = $_POST['suggestion'] ;
+    $like = 1 ;
+    mysqli_query($db_handle, "INSERT INTO suggestions (user_id, suggest, likes) VALUES ('$user_id', '$suggestion', '$like');");
+    header('Location: billing_info.php');
+}
+// show billing description by date and month wise added
+if (isset($_POST['view'])) {
+    $bil = $_POST['bil'];
+    $bite = $_POST['bite'];
+     $response = mysqli_query($db_handle, "select * from billing_info where user_id = '$user_id' and (billing_date  between '$bil' and '$bite');") ;
+	} 
+	 elseif (isset($_POST['month'])) {
+		$month = $_POST['month'];
+		$year = date("y") ;
+		$dat = "01" ;
+		$initial = $year."-".$month."-".$dat ;
+		$last = $year."-".$month."-".($dat+30) ;
+		$response = mysqli_query($db_handle, "select * from billing_info where user_id = '$user_id' and (billing_date  between '$initial' and '$last');") ;
+		}	else { 
+				$response = mysqli_query($db_handle, "SELECT * FROM billing_info WHERE user_id = '$user_id';");
+			}
+// show billing description by date and month wise added -----ended-----
 if (isset($_POST['delete_member'])) {
     $uid = $_POST['uid'];
     $group_name = $_POST['group_name'];
     mysqli_query($db_handle, "DELETE FROM groups WHERE user_id = '$uid' AND group_name = '$group_name';");
+    header('Location: billing_info.php');
 }
 
 if (isset($_POST['suggestions'])) {
@@ -95,9 +178,11 @@ if (isset($_POST['save'])) {
     if ($group_name == '') {
         mysqli_query($db_handle, "INSERT INTO groups (user_id, group_name) VALUES ('$user_id', '$name');");
         $group_name = $name;
+
     }
     mysqli_query($db_handle, "INSERT INTO billing_info ( user_id, billing_date, amount, description, group_name ) 
 											VALUES ('$user_id','$billing_date','$amount','$description','$group_name');");
+    header('Location: billing_info.php');
 }
 
 if (isset($_POST['view'])) {
@@ -223,9 +308,9 @@ while ($we = mysqli_fetch_array($rt)) {
     $eid = $as['email'];
     $unm = $as['first_name'];
     $cd = "Debit";
-    $amnt = $we['amount'];
+    $amt = $we['amount'];
 
-    $amnt = $amnt / $abh;
+    $amnt = $amt / $abh;
     //   echo "<div class='span3'></div>".$amnt."::: ".$usi."::: ".$gnm.";";
     if (key_exists($eid, $debitTable)) {
 

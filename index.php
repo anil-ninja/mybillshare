@@ -19,11 +19,18 @@ if (isset($_SESSION['first_name'])) {
 			$awe = $_POST['password2'] ;
 	
 		if ( $pas == $awe ) {
-				mysqli_query($database_handle,"INSERT INTO user_info(first_name, last_name, email, username, password) VALUES ('$firstname', '$lastname', '$email', '$username', '$pas') ; ") ;
+				mysqli_query($database_handle,"INSERT INTO user_info(first_name, last_name, email, username, password) VALUES 
+						('$firstname', '$lastname', '$email', '$username', '$pas') ; ") ;
 				header('Location: index.php?status=0');
+<<<<<<< HEAD
 			}  
 				else { 
 					echo "password not match" ;
+=======
+			} 
+				else {  
+					header('Location: index.php?status=1');
+>>>>>>> ac77a46ec923092a053d259bcd4b247e5586d1ec
 					}
 		}
 		
@@ -71,7 +78,7 @@ if (isset($_SESSION['first_name'])) {
     
     <style>
       body {
-        padding-top: 50px; /* 60px to make the container go all the way to the bottom of the topbar */
+        padding-top: 100px; /* 60px to make the container go all the way to the bottom of the topbar */
       }
     </style>
     <link href="css/bootstrap-responsive.css" rel="stylesheet">
@@ -268,7 +275,15 @@ while(isset($_GET['status'])){
 				alert('User registered successfully');
 			</script>";
 }
+<<<<<<< HEAD
 
+=======
+	if($_GET['status'] == 1){
+		echo "<script>
+				alert('Password do not match, Try again');
+			</script>";
+}//trying
+>>>>>>> ac77a46ec923092a053d259bcd4b247e5586d1ec
 }
 ?>
   </body>
