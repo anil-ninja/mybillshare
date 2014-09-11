@@ -258,7 +258,7 @@ if (isset($_SESSION['first_name'])) {
 
 <?php
 
-while(isset($_GET['status'])){
+if(isset($_GET['status'])){
 //status=2
 	if($_GET['status'] == 2){
 			echo "<script> 
