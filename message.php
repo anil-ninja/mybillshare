@@ -29,6 +29,13 @@ if (isset($_POST['send'])) {
     mysqli_query($db_handle, "INSERT INTO messages (sender_id, receiver_id, message) VALUES ('$sender', '$receiver', '$message');") ;
 }
 
+if (isset($_POST['see_all_message'])) {
+    $sender = $_SESSION['user_id'];
+    $receiver = $_POST['receiver_id'] ;
+    
+     
+}
+
 ?>
 <html lang="en">
     <head>
@@ -74,8 +81,9 @@ if (isset($_POST['send'])) {
           <div class="navbar-header">
                     <div class="container">
                         <div class="row">
+		<a class="navbar-brand" href="billing_info.php">Back</a>
                             <div class="col-md-2 col-md-offset-6">
-                                <a class="navbar-brand" href="index.php">MyBills.com</a>
+                                <a class="navbar-brand"  href="index.php">MyBills.com</a>
                             </div>
 
                             
@@ -100,62 +108,86 @@ if (isset($_POST['send'])) {
         <div id="page-wrapper">
 
             <div class="row">
-                <div class="span6 pull-left">
-                    <p> <h4><font color = "006666">Friends: </font></h4> </p>
-                   <div class="col-lg-12">
+                <div class="span3">
+					
+                   
+                   
 			<?php   
 			
-                    $groupdisplay = mysqli_query($db_handle, "SELECT group_name from groups where user_id = '$user_id';");
-               
-                   while ($gd = mysqli_fetch_array($groupdisplay)) {
-							$grp = $gd['group_name'];     
-							$names = mysqli_query($db_handle, "SELECT a.group_name,b.first_name,b.last_name,a.user_id 
-																				from groups as a 
-																				join user_info as b 
-																				where a.group_name = '$grp' 
-																				and  a.user_id = b.user_id
-																				and a.user_id != $user_id;");
-					
+                
+							$names = mysqli_query($db_handle, "select * from user_info as a join 
+																(select DISTINCT b.user_id from groups as a join
+																 groups as b where a.user_id = '$user_id' and
+																  a.group_name = b.group_name and b.user_id != '$user_id')
+																	as b where a.user_id=b.user_id;") ;
+					echo "<table class='table table-bordered table-hover datatable' id='datatable'>
+                                <thead>
+                            <tr> 
+								<td>Friends</td>
+								</tr>
+								</thead>
+                        <tbody>";
+
 					while ($nms = mysqli_fetch_array($names)) {
 						$user_name = $nms['first_name'];
 						$unm = $nms['last_name'] ;
 						$anl = mysqli_query($db_handle, "SELECT user_id from user_info where first_name = '$user_name' AND last_name = '$unm';") ;
 						$nam = mysqli_fetch_array($anl) ;
 						$df = $nam['user_id'] ;
-						print_r(strtoupper($user_name)." ".strtoupper($unm)."<br/> ". "<form method='POST' class='inline-form' >
-							<div class='input-group'>
-									<input type='text' class='form-control' name='mess' placeholder='Type your message here'></br>
-									<button type='submit'  class='btn-primary'  name='send'  >Send </button>
-									<input type='hidden' name='receiver_id' value='" . $df . "'/>
-							</form>
-						
-					
-				</div>") ;
-				$messagedisplay = mysqli_query($db_handle, "SELECT * from messages WHERE (sender_id = $user_id and receiver_id = $df) OR (sender_id = $df and receiver_id = $user_id) ORDER BY time DESC LIMIT 0, 10;");
-						   while($messagedisplayRow = mysqli_fetch_array($messagedisplay) ) {
-							   $send = $messagedisplayRow['sender_id'] ;
-							   $rece = $messagedisplayRow['receiver_id'] ;
-							   $mesage = $messagedisplayRow['message'] ;
-							   $time = $messagedisplayRow['time'] ;
-							   $as = mysqli_query($db_handle, "SELECT first_name from user_info WHERE user_id = '$send';") ;
-								$rt = mysqli_fetch_array($as) ;
-								$namer = $rt['first_name'] ;
-							   $asj = mysqli_query($db_handle, "SELECT first_name from user_info WHERE user_id = '$rece';") ;
-								$rtr = mysqli_fetch_array($asj) ;
-								$namers = $rtr['first_name'] ;
-							   echo strtoupper($namer)." "."said"." "."to"." ".strtoupper($namers)." "."at"." ".$time."<br/>".$mesage."<br/>" ;
-							   
-							   }
-                               
-					
+						echo "<tr>
+								<td>
+									<form method='POST' class='inline-form' >".
+                                        
+                                        "<input type='hidden' name='receiver_id' value='".$df."'/>".
+                                        
+                                        "<button type='submit'  name='see_all_message'  > ".
+                                        strtoupper($user_name)." ".strtoupper($unm)."</button>
+                                    </form>
+                                 </td>
+                              </tr>
+                                       " ;
+				
 				}
-			}
+			
 					?>
+					 </tbody>	
+                    </table>
 		   </div>
+
+	   <div class="span5">
+   Conversation:<br/>
+   <?php
+   if(isset($_POST["see_all_message"])){
+    $messagedisplay = mysqli_query($db_handle, "SELECT * from messages WHERE 
+								(sender_id = $sender and receiver_id = $receiver) OR 
+								(sender_id = $receiver and receiver_id = $sender) 
+								ORDER BY time DESC LIMIT 0, 10;") ;
+		while($messagedisplayRow = mysqli_fetch_array($messagedisplay) ) {
+			$send = $messagedisplayRow['sender_id'] ;
+		    $rece = $messagedisplayRow['receiver_id'] ;
+			$mesage = $messagedisplayRow['message'] ;
+			$time = $messagedisplayRow['time'] ;
+			$as = mysqli_query($db_handle, "SELECT first_name from user_info WHERE user_id = '$send';") ;
+			$rt = mysqli_fetch_array($as) ;
+			$namer = $rt['first_name'] ;
+		    $asj = mysqli_query($db_handle, "SELECT first_name from user_info WHERE user_id = '$rece';") ;
+			$rtr = mysqli_fetch_array($asj) ;
+			$namers = $rtr['first_name'] ;
+		  
+         echo strtoupper($namer)." "."said"." "."to"." ".strtoupper($namers)." "."at"." ".$time."<br/>".$mesage."<br/>"."<br/>" ;
+    }
+    
+		echo "<form method='POST' class='inline-form' >
+                          <input type='text' class='form-control' name='mess' placeholder='Type your message here'></br>
+                                        <input type='hidden' name='receiver_id' value='".$receiver."'/>
+                                        <button type='submit'  class='btn-primary'  name='send'  >Send </button>
+               </form>";
+		   }
+    ?>
+				
+
 	   </div>
-   </div>
-</div>
-               
+        </div>   
         <script type="text/javascript">
 		
         </script>
@@ -167,7 +199,7 @@ if (isset($_POST['send'])) {
         <script src="js/custom.js"></script>
 
         <div class="row">
-            <div class="span4 pull-right">
+            <div class="span5 pull-right">
 
                 <ul class="list-inline">
                     <li>Posted by: Mybill.com</li>
