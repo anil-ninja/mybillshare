@@ -17,13 +17,22 @@ if (isset($_SESSION['first_name'])) {
 			$username = $_POST['username'];
 			$pas = $_POST['password'] ;
 			$awe = $_POST['password2'] ;
+	
 		if ( $pas == $awe ) {
 				mysqli_query($database_handle,"INSERT INTO user_info(first_name, last_name, email, username, password) VALUES ('$firstname', '$lastname', '$email', '$username', '$pas') ; ") ;
 				header('Location: index.php?status=0');
-			} 
-				else { echo "password not match" ;
+			}  
+				else { 
+					echo "password not match" ;
 					}
 		}
+		
+		/*	if(isset($_POST['signup'])) {
+			$firstname = $_POST['firstname'];
+			$lastname = $_POST['lastname'];
+			$email = $_POST['email'];
+			$username = $_POST['username'];
+*/
 
 	if(isset($_POST['login'])) { 
 		$username = $_POST['username'];
@@ -188,6 +197,45 @@ if (isset($_SESSION['first_name'])) {
 </div>
 <!--end modle-->
 
+<!-- Modal -->
+<div class="modal fade" id="forgetPassModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">Forgot Password</h4>
+      </div>
+      
+      <div class="modal-body">
+        
+        <form role="form" method="POST" id="tablef" >
+								<div class="input-group" >
+									<span class="input-group-addon">First Name</span>
+									<input type="text" class="form-control" name="firstname" placeholder="Enter your first name">
+								</div>
+								<br>
+								<div class="input-group">
+									<span class="input-group-addon">Email</span>
+									<input type="text" class="form-control" name="email" placeholder="Enter your Email">
+								</div>
+								<br>
+								<div class="input-group">
+									<span class="input-group-addon">Username</span>
+									<input type="text" class="form-control" name="username" placeholder="Enter your user name">
+								</div>
+								<br>
+							<input type="submit" class="btn btn-primary" name = "submit" value = "Submit" >
+						</form>
+      </div>
+      <div class="modal-footer">
+        <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+        <button id="newuser" type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--end modle-->
+
 
 	<script type="text/javascript">
 		function checkForm() {
@@ -207,19 +255,20 @@ if (isset($_SESSION['first_name'])) {
 
 <?php
 
-if(isset($_GET['status'])){
+while(isset($_GET['status'])){
 //status=2
 	if($_GET['status'] == 2){
 			echo "<script> 
 					alert('Please, put Valid Username and Password');
 				</script>";
-}
+} 
 
 	if($_GET['status'] == 0){
 		echo "<script>
 				alert('User registered successfully');
 			</script>";
 }
+
 }
 ?>
   </body>

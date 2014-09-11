@@ -18,7 +18,7 @@ if (mysqli_connect_errno()) {
 if (isset($_POST['delete_bill'])) {
     $bill_id = $_POST['bill_id'];
     mysqli_query($db_handle, "DELETE FROM billing_info where bill_id = '$bill_id';");
-
+	
     //echo "<script>alert('success')</script>";
 }
 
@@ -84,6 +84,7 @@ if (isset($_POST['suggestions'])) {
 	$suggestion = $_POST['suggestion'] ;
     $like = 1 ;
     mysqli_query($db_handle, "INSERT INTO suggestions (user_id, suggest, likes) VALUES ('$user_id', '$suggestion', '$like');");
+    header('Location: billing_info.php');
 }
 
 if (isset($_POST['save'])) {
@@ -99,8 +100,21 @@ if (isset($_POST['save'])) {
 											VALUES ('$user_id','$billing_date','$amount','$description','$group_name');");
 }
 
-$response = mysqli_query($db_handle, "SELECT * FROM billing_info WHERE user_id = '$user_id';");
-//echo "<script>alert('".  print_r($response)."')</script>";
+if (isset($_POST['view'])) {
+    $bil = $_POST['bil'];
+    $bite = $_POST['bite'];
+     $response = mysqli_query($db_handle, "select * from billing_info where user_id = '$user_id' and (billing_date  between '$bil' and '$bite');") ;
+	} 
+	 elseif (isset($_POST['month'])) {
+		$month = $_POST['month'];
+		$year = date("y") ;
+		$dat = "01" ;
+		$initial = $year."-".$month."-".$dat ;
+		$last = $year."-".$month."-".($dat+30) ;
+		$response = mysqli_query($db_handle, "select * from billing_info where user_id = '$user_id' and (billing_date  between '$initial' and '$last');") ;
+		}	else { 
+				$response = mysqli_query($db_handle, "SELECT * FROM billing_info WHERE user_id = '$user_id';");
+			}
 
 if (isset($_POST['logout'])) {
     header('Location: index.php');
@@ -299,4 +313,20 @@ if(isset($_GET['status'])){
 }
 }
 
+if (isset($_POST['messages'])) {
+	header('Location: testing.php');
+	$_SESSION['user_id'] = $user_id;
+	$_SESSION['first_name'] = $name;
+	$_SESSION['username'] = $username;
+	$_SESSION['email'] = $email;
+			
+	exit ;
+	}
+
+if (isset($_POST['like'])) {
+    $suggestion_id = $_POST['suggestion_id'];
+	$likes = $_POST['likes'];
+		mysqli_query($db_handle, "INSERT INTO like_info (suggestion_id, user_id) VALUES ('$suggestion_id', '$user_id');") ;
+        mysqli_query($db_handle, "UPDATE suggestions SET likes = likes+1 WHERE suggestion_id = '$suggestion_id';");  
+}
 ?>

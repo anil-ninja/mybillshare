@@ -56,8 +56,12 @@ include_once 'billing_info2.inc.php';
                                 <ul class="nav navbar-nav navbar-right  navbar-user">
                                     <li><p class="navbar-text"><span class="glyphicon glyphicon-user"></span>
                                             &nbsp; Hello <?php echo ucfirst($name); ?></p></li>
+                                            <li><form  method="POST" class="navbar-text"  >
+					 <input type="submit"  class=" btn-primary" name="messages" value="Messages" style="float: left"> 
+                    </input></form>
+                </li>
                                     <li>
-                                        <form role="form" method="POST" action = "" onsubmit="return confirm('Budget planning done !!!')">
+                                        <form role="form" method="POST" class="navbar-text" action = "" onsubmit="return confirm('Budget planning done !!!')">
                                             <button type="submit" class="btn btn-danger"  name="logout" >
                                                 <span class="glyphicon glyphicon-off"></span>
                                             </button>
@@ -80,10 +84,10 @@ include_once 'billing_info2.inc.php';
                 <li><a data-toggle="modal"  data-target="#myModal" style="float: right; cursor:pointer;">Create New Group
                     </a>
                 </li>
+				
 
             </ul>
         </div>
-
         <div id="page-wrapper">
 
             <div class="row">
@@ -91,16 +95,65 @@ include_once 'billing_info2.inc.php';
                 </div>
 
                 <div class="span9">
+        
+						<form method="POST" action = "">
+                            <p> <h4>                             
+                                <input type="date" name="bil"  placeholder="From (yyyy-mm-dd)">
+                              
+                                
+                                <input type="date" name="bite"  placeholder="To (yyyy-mm-dd)">
+								<input type="submit" class="btn btn-primary" name="view"  value="View" /> 
+					
+			       					<form method='POST' >
+									<select name = "month" onchange='this.form.submit()' ></h4></p>	
+									<?php
+									    $month = date("m") ;
+										if(isset($_POST['month'])){
+											$month = $_POST['month'];
+											}	
+										$months = array("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec");
+										$i = 1;
+										
+										foreach ($months as $mon){
+											if($month == $i ) {
+												if($i <= 9){
+													echo	"<option value='0".$i."' selected >".$mon."</option>";
+												}
+												else {
+													echo	"<option value='".$i."' selected >".$mon."</option>";
+												}
+											} else {
+												if($i <= 9)
+													echo	"<option value='0".$i."' >".$mon."</option>";
+												else 
+													echo	"<option value='".$i."' >".$mon."</option>";
+												
+											}
+											$i+=1;
+										}
+										?>	
+															
+									</select>
+							<noscript><input type="submit" name="month" value="Submit"></noscript>
+                        </form>
+</div></div></div>
+        <div id="page-wrapper">
+
+            <div class="row">
+                <div class="span2">
+                </div>
+
+                <div class="span6">
                     <p> <h4><font color = "006666">Your Billing Details: </font></h4> </p>
                    <div class="col-lg-12">
                         <div class="table-responsive">
                             <table class="table table-bordered table-hover datatable" id="datatable">
                                 <thead>
                             <tr>
-                                <th>BILL ID  </th>
+                                <th>Billing Date  </th>
                                 <th>Amount  </th>
                                 <th>Description  </th>
-                                <th>Billing Date  </th>
+                                <th>BILL ID  </th>
                                 <th>Group Name  </th>
                             </tr>
                         </thead>
@@ -110,11 +163,11 @@ include_once 'billing_info2.inc.php';
 $total = 0;
 while ($billRow = mysqli_fetch_array($response)) {
     echo "<tr>";
-    echo "<td>" . $billRow['bill_id'] . "</td>";
+    echo "<td>" . $billRow['billing_date'] . "</td>";
     echo "<td>" . $billRow['amount'] . "</td>";
     $total += $billRow['amount'];
     echo "<td>" . $billRow['description'] . "</td>";
-    echo "<td>" . $billRow['billing_date'] . "</td>";
+    echo "<td>" . $billRow['bill_id'] . "</td>";
     echo "<td>" . $billRow['group_name'] . "</td>";
     echo "<td>
             <form method='POST' onsubmit=\"return confirm('Cool, Have your really start saving !!!')\">
@@ -133,19 +186,67 @@ echo "<tr>
 ?>
                         </tbody>	
                     </table>
-                </div>
-                
+            </div> </div>    </div>
+         <div class="container">
+		<div class='row'>					
+					<div class="span3"  >
+						
+                        <p> <h4><font color = "006666">Suggestions: </font></h4> </p>
+                     <div class="col-lg-12">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover datatable" id="datatable">
+                                <thead>    
+                                    <tr style="background-color:silver;">
+                                        <th>Suggestion  <br></th>
+                                        <th>Likes  <br></th>
 
-            </div> </div>
-                
-
+                                    </tr>
+                                </thead>
+                                <tbody>
+									<form  method="POST" action="" >
+                            
+                               	<tr>
+										<td>
+											<input type="text"  name="suggestion" placeholder="Type your suggestion here">
+										</td>
+										<td>
+											<input type="submit" class="btn btn-primary" name = "suggestions" value = "Submit" >
+										</td>
+										<td>
+										</td>
+								</tr>
+										</form>
+                                    <?php
+                                    $suggestdisplay = mysqli_query($db_handle, "SELECT * from suggestions ORDER BY likes DESC LIMIT 0, 10;");
+                                    while ($suggestdisplayRow = mysqli_fetch_array($suggestdisplay)) {
+                                        echo "<tr>";
+                                        echo "<td>" . $suggestdisplayRow['suggest'] . "</td>";
+                                        echo "<td>" . $suggestdisplayRow['likes'] . "</td>";
+                                        echo "<td>
+                                                <form method='POST' class='inline-form'>
+                                                    <input type = 'hidden' name = 'suggestion_id' value = '".$suggestdisplayRow['suggestion_id']."'>
+                                                    <input type = 'hidden' name = 'likes' value = '".$suggestdisplayRow['likes']."'>
+                                                     <button type='submit'  class='glyphicon glyphicon-thumbs-up'  name='like'>
+                                                     </button>
+                                                </form>
+                                                </td>";
+                                    echo "</tr>";
+                                }
+                                        //echo $suggestdisplay_td;
+                                    ?>
+                                   
+                                </tbody>
+                            </table>
+                        </div>
+                     </div>
+                        </div>
+                        </div>
+                        </div>
             </div>
-
-
             <div class="row">
                 <div class="span2">
                 </div>
-                <div class="span9">
+                <div class="span6">
                     <p> <h4><font color = "006666">Summary: </font></h4> </p>
                     <div class="col-lg-12">
                         <div class="table-responsive">
@@ -233,10 +334,8 @@ foreach ($creditTable as $v) {
                                 </tbody>	
                             </table>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
+                  </div>  
+          <div class="row">
                 <div class="span2">
                 </div>
                 <div class="span9">
@@ -260,33 +359,7 @@ echo $group_display_td;
                 </div>
             </div>
         </div>	
-
-           <div class="row">
-                <div class="span2">
-                </div>
-                <div class="span9">
-                    <p> <h4><font color = "006666">Groups: </font></h4> </p>
-                     <div class="col-lg-12">
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-hover datatable" id="datatable">
-                                <thead>    
-                            <tr style="background-color:silver;">
-                                <th>Suggestions  <br></th>
-                                <th>likes  <br></th>
-                            </tr></thead><tbody>
-                        
-<?php
-
-echo $group_display_td;
-?>
-</tbody>
-                    </table>
-                        </div></div>
-                </div>
-            </div>
-        </div>	
-
-        <!-- Modal -->
+            <!-- Modal -->
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -325,7 +398,7 @@ echo $group_display_td;
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Delete Group</h4>
+                        <h4 class="modal-title" id="myModalLabel">Expense Details</h4>
                     </div>
                     <div class="modal-body">
                         <form role="form" method="POST" action = "">
@@ -346,8 +419,18 @@ echo $group_display_td;
                             </div>
                             <br>
                             <div class="input-group">
-                                <span class="input-group-addon">Share with Group</span> 
-                                <input type="text" class="form-	control" name="group_name" placeholder="Enter Group name"> 
+                                Select Group
+									<select name = "group_name"  >
+										<option value="">None</option>
+										<?php
+											$awr = mysqli_query($db_handle, "SELECT * FROM groups WHERE user_id = '$user_id';") ;
+											while ($rty = mysqli_fetch_array($awr)) {
+												$jk = $rty['group_name'] ;
+												echo "<option value='$jk'>"."$jk"."</option>"."<br/>" ;
+												
+												}
+										?>
+									</select> 
                             </div>
                             <br>
                             <input type="submit" class="btn btn-primary" name="save"  value="Save" />
@@ -361,22 +444,7 @@ echo $group_display_td;
             </div>
         </div>
         <!--end modle-->
-        <div class="container">
-		<div class='row'>
-			
-					
-					<div class="center-block" style="width:300px;"  ></br>
-						<form role="form" method="POST" class="form-horizontal" >
-                            <div class="input-group" >
-                                <span class="input-group-addon">Suggestions</span>
-                                <input type="text" class="form-control" name="suggestion" placeholder="Type your suggestion here">
-                            </div>
-                            <br>
-                            <input type="submit" class="btn btn-primary" name = "suggestions" value = "Submit" >
-                        </form>
-                        </div>
-                        </div>
-                        </div>
+        </div></div></div>
         <script type="text/javascript">
 		
         </script>
@@ -388,7 +456,7 @@ echo $group_display_td;
         <script src="js/custom.js"></script>
 
         <div class="row">
-            <div class="span4 pull-right">
+            <div class="span6 pull-right">
 
                 <ul class="list-inline">
                     <li>Posted by: Mybill.com</li>
