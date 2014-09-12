@@ -93,10 +93,7 @@ if (isset($_POST['create_group'])) {
                     </div>
                 </div>
             </div>";
-        
-
-        
-    }
+        }
 }
 
 if (isset($_POST['delete_group'])) {
