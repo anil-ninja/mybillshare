@@ -311,8 +311,8 @@ echo $group_display_td;
         </div>
 
         <!-- Modal -->
-        <div class="modal fade" id="myModal" style="max-width: 400px" aria-hidden="true">
-
+        <div class="modal fade" id="myModal" aria-hidden="true">
+			<div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
@@ -341,8 +341,7 @@ echo $group_display_td;
             </div>
         </div>
     </div>
-</div>
-</div>
+
 <!--end modle-->
 <!-- Modal -->
 <div class="modal fade" id="eye" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -350,11 +349,10 @@ echo $group_display_td;
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="myModalLabel">Delete Group</h4>
+                <h4 class="modal-title" id="myModalLabel">Enter your expense details:</h4>
             </div>
             <div class="modal-body">
-                <form role="form" method="POST" action = "">
-                    <p> <h4> <font color = "blue">Enter your expense details:</font></h4></p>
+                <form role="form" method="POST" action = "" id ="tablef">
                     <div class="input-group">
                         <span class="input-group-addon">Date</span> 
                         <input type="date" class="form-	control" name="billing_date" value="<?php echo date("Y-m-d"); ?>" placeholder="Enter date" min="2014-09-01" max="<?php echo date("Y-m-d"); ?>">
