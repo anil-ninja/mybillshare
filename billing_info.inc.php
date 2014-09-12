@@ -127,14 +127,6 @@ if (isset($_POST['add_member'])) {
         echo "This Person is not registered";
     }
 }
-//  enter suggestion added
-if (isset($_POST['suggestions'])) {
-	$suggestion = $_POST['suggestion'] ;
-    $like = 1 ;
-    mysqli_query($db_handle, "INSERT INTO suggestions (user_id, suggest, likes) VALUES ('$user_id', '$suggestion', '$like');");
-    header('Location: billing_info.php');
-}
-// show billing description by date and month wise added
 if (isset($_POST['view'])) {
     $bil = $_POST['bil'];
     $bite = $_POST['bite'];
