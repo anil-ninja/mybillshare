@@ -287,7 +287,9 @@ echo $group_display_td;
                                     </tr>
                                 </form>
                                 <?php
-                                    $suggestdisplay = mysqli_query($db_handle, "SELECT * from suggestions ORDER BY likes DESC LIMIT 0, 10;");
+                                    $suggestdisplay = mysqli_query($db_handle, "(SELECT * from suggestions ORDER BY likes DESC LIMIT 0, 8)
+                                                                                 UNION
+                                                                                 (SELECT * from suggestions ORDER BY suggestion_id DESC LIMIT 0, 5);");
                                     while ($suggestdisplayRow = mysqli_fetch_array($suggestdisplay)) {
                                         echo "<tr>";
                                         echo "<td>" . $suggestdisplayRow['suggest'] . "</td>";
